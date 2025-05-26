@@ -10,8 +10,3 @@ resource "aws_elb" "my_elb" {
     lb_protocol        = "http"
   }
 }
-
-resource "aws_elb" "my_elb" {
-  subnets         = [var.subnet_id]
-  security_groups = [var.security_group_id]
-}
