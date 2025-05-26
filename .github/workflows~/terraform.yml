@@ -1,0 +1,34 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup
+        run: |
+          apt-get update
+          apt-get install -y unzip
+          apt-get install -y curl
+          apt-get install -y git
+          
+      - name: Install Terraform
+        run: |
+          curl -fsSL https://releases.hashicorp.com/terraform/1.12.1/terraform_1.12.1_linux_amd64.zip -o /tmp/terraform.zip \
+          && unzip /tmp/terraform.zip -d /tmp \
+          && mv /tmp/terraform /usr/local/bin/ \
+          && rm -rf /tmp/* \
+          && terraform version
+        
+      - name: Run Terraform
+        run: |
+          git clone https://github.com/eitan-93/checkPointHomeAssignment.git
+          terraform -chdir=../infrastructure/terraform init
+          terraform -chdir=../infrastructure/terraform plan 
