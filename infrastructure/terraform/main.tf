@@ -46,8 +46,10 @@ module "github_actions" {
 module "elb" {
   source = "./modules/elb"
 
-  subnets                  = [aws_subnet.my_subnet.id]
-  security_groups  = [aws_security_group.my_security_group.id]
+  subnet_id          = aws_subnet.my_subnet.id
+  security_group_id  = aws_security_group.my_security_group.id
+  subnets            = [aws_subnet.my_subnet.id]
+  security_groups    = [aws_security_group.my_security_group.id]
 }
 
 module "ecs" {
