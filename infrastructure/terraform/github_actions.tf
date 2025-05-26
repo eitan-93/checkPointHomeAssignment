@@ -52,19 +52,25 @@ resource "aws_iam_role_policy_attachment" "github_actions" {
 }
 
 # Create a GitHub Actions workflow that uses the AWS CLI with the assumed IAM role
-resource "github_actions_workflow" "example" {
-  name        = "example-workflow"
-  repository  = "my-repo"
-  workflow    = file("${path.module}/example-workflow.yml")
+resource "github_actions_secret" "aws_access_key_id" {
+  repository = "my-repo"
+  secret_name = "AWS_ACCESS_KEY_ID_LOCALSTACK"
+  value = "my-access-key-id"
+}
+
+resource "github_actions_secret" "aws_secret_access_key" {
+  repository = "my-repo"
+  secret_name = "AWS_SECRET_ACCESS_KEY_LOCALSTACK"
+  value = "my-secret-access-key"
 }
 
 # Use the secrets stored in the GitHub Secrets manager
-data "github_actions_secret" "aws_access_key_id" {
-  name        = "AWS_ACCESS_KEY_ID_LOCALSTACK"
-  repository  = "my-repo"
-}
+# data "github_actions_secret" "aws_access_key_id" {
+# name        = "AWS_ACCESS_KEY_ID_LOCALSTACK"
+# repository  = "checkPointHomeAssignment"
+#}
 
-data "github_actions_secret" "aws_secret_access_key" {
-  name        = "AWS_SECRET_ACCESS_KEY_LOCALSTACK"
-  repository  = "my-repo"
-}
+#data "github_actions_secret" "aws_secret_access_key" {
+# name        = "AWS_SECRET_ACCESS_KEY_LOCALSTACK"
+# repository  = "checkPointHomeAssignment"
+#}
