@@ -34,14 +34,14 @@ resource "aws_security_group" "my_security_group" {
 }
 
 module "elb" {
-  source = "./elb"
+  source = "elb"
 
   subnets         = [aws_subnet.my_subnet.id]
   security_groups = [aws_security_group.my_security_group.id]
 }
 
 module "ecs" {
-  source = "./ecs"
+  source = "ecs"
 
   cluster_name = "my-cluster"
   instance_type = "t2.micro"
