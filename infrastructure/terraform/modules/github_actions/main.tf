@@ -1,7 +1,5 @@
 # Configure the AWS provider
-provider "aws" {
-  region = "us-east-2"
-}
+
 
 # Create an IAM role for the GitHub Actions workflow
 resource "aws_iam_role" "github_actions" {
