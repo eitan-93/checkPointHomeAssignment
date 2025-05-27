@@ -16,10 +16,10 @@ variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet"
 }
 
-variable "AWS_ACCESS_KEY_ID" {
+variable "AWS_ACCESS_KEY_ID_LOCALSTACK" {
   type = string
 }
 
-variable "AWS_SECRET_ACCESS_KEY" {
+variable "AWS_SECRET_ACCESS_KEY_LOCALSTACK" {
   type = string
 }
