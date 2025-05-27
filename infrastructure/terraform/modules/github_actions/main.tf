@@ -9,7 +9,7 @@ resource "aws_iam_role" "github_actions" {
       {
         Action = "sts:AssumeRole"
         Principal = {
-          Service = "github-actions.amazonaws.com"
+          Service = "actions.githubusercontent.com"
         }
         Effect = "Allow"
       }
@@ -78,10 +78,10 @@ resource "github_actions_secret" "aws_secret_access_key" {
 # Use the secrets stored in the GitHub Secrets manager
 # data "github_actions_secret" "aws_access_key_id" {
 # name        = "AWS_ACCESS_KEY_ID_LOCALSTACK"
-# repository  = "checkPointHomeAssignment"
+# repository  = "eitan-93/checkPointHomeAssignment"
 #}
 
 #data "github_actions_secret" "aws_secret_access_key" {
 # name        = "AWS_SECRET_ACCESS_KEY_LOCALSTACK"
-# repository  = "checkPointHomeAssignment"
+# repository  = "eitan-93/checkPointHomeAssignment"
 #}
