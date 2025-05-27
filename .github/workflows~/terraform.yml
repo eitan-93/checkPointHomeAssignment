@@ -8,22 +8,25 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    services:
-      localstack:
-        image: localstack/localstack:latest
-        ports:
-          - 4566:4566
-        env:
-          SERVICES: s3,ec2,iam,sts,elb,ssm,sqs,ecs,cloudwatch,autoscaling
-          DEFAULT_REGION: us-east-2
-          DATA_DIR: /tmp/localstack/data
-          DEBUG: 1
-        options: >-
-          --health-cmd "curl -f http://localhost:4566/_localstack/health || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 20
-
+    # services:
+    #   localstack:
+    #     image: localstack/localstack:latest
+    #     ports:
+    #       - 4566:4566
+    #     env:
+    #       SERVICES: s3,ec2,iam,sts,elb,ssm,sqs,ecs,cloudwatch,autoscaling
+    #       DEFAULT_REGION: us-east-2
+    #       DATA_DIR: /tmp/localstack/data
+    #       DEBUG: 1
+    #     options: >-
+    #       --health-cmd "curl -f http://localhost:4566/_localstack/health || exit 1"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 20
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'us-east-2'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,12 +45,13 @@ jobs:
           && terraform version
         
       - name: Run Terraform
-        env:
-          AWS_SDK_LOAD_CONFIG: "1"
-          AWS_ACCESS_KEY_ID: "test"
-          AWS_SECRET_ACCESS_KEY: "test"
-          AWS_REGION: "us-east-2"
-          #AWS_ENDPOINT: "http://localhost:4566"
+
+        
+        #  AWS_SDK_LOAD_CONFIG: "1"
+        #  AWS_ACCESS_KEY_ID: "test"
+        #  AWS_SECRET_ACCESS_KEY: "test"
+        #  AWS_REGION: "us-east-2"
+        #  AWS_ENDPOINT: "http://localhost:4566"
         run: |
           git clone https://github.com/eitan-93/checkPointHomeAssignment.git 
           cd checkPointHomeAssignment/infrastructure/terraform
