@@ -8,6 +8,22 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    services:
+      localstack:
+        image: localstack/localstack:latest
+        ports:
+          - 4566:4566
+        env:
+          SERVICES: s3,ec2,iam,sts,elb,ssm,sqs,ecs,cloudwatch,autoscaling
+          DEFAULT_REGION: us-east-2
+          DATA_DIR: /tmp/localstack/data
+          DEBUG: 1
+        options: >-
+          --health-cmd "curl -f http://localhost:4566/_localstack/health || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 20
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -15,13 +31,11 @@ jobs:
       - name: Setup
         run: |
           apt-get update
-          apt-get install -y unzip
-          apt-get install -y curl
-          apt-get install -y git
+          apt-get install -y unzip curl git
 
       - name: Install Terraform
         run: |
-          curl -fsSL https://releases.hashicorp.com/terraform/1.12.1/terraform_1.12.1_linux_amd64.zip -o /tmp/terraform.zip \
+          curl -fsSL https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -o /tmp/terraform.zip \
           && unzip /tmp/terraform.zip -d /tmp \
           && mv /tmp/terraform /usr/local/bin/ \
           && rm -rf /tmp/* \
@@ -33,16 +47,13 @@ jobs:
           AWS_ACCESS_KEY_ID: "test"
           AWS_SECRET_ACCESS_KEY: "test"
           AWS_REGION: "us-east-2"
+          #AWS_ENDPOINT: "http://localhost:4566"
         run: |
           git clone https://github.com/eitan-93/checkPointHomeAssignment.git 
-          export AWS_SDK_LOAD_CONFIG=1
-          export AWS_ENDPOINT="http://localhost:4566"
-          export AWS_ACCESS_KEY_ID=test
-          export AWS_SECRET_ACCESS_KEY=test
-          export AWS_REGION=us-east-2
-          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform init
-          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform fmt
-          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform validate 
-          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform plan -out=tfplan
-          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform -V
+          cd checkPointHomeAssignment/infrastructure/terraform
+          terraform init
+          terraform fmt
+          terraform validate 
+          terraform  plan -out=tfplan
+          terraform -V
           echo $PWD
