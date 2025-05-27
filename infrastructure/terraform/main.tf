@@ -18,10 +18,11 @@ provider "aws" {
   access_key = var.AWS_ACCESS_KEY_ID
   secret_key = var.AWS_SECRET_ACCESS_KEY
   skip_credentials_validation = true
-  skip_requesting_account_id = true
-  skip_metadata_api_check = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+  s3_use_path_style           = true
   endpoints {
-    s3 = "http://localhost:4536"
+    s3 = "http://s3.localhost.localstack.cloud:4536"
   }
 }
 
