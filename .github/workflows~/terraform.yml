@@ -31,7 +31,7 @@ jobs:
         run: |
           git clone https://github.com/eitan-93/checkPointHomeAssignment.git 
           echo "export AWS_SDK_LOAD_CONFIG=1" >> ~/.bashrc
-          echo "export AWS_ENDPOINT=\"http://localhost:4566\"" >> ~/.bashrc
+          echo "export AWS_ENDPOINT=\"http://localhost:4536\"" >> ~/.bashrc
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform init
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform fmt
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform validate 
