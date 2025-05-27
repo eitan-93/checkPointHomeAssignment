@@ -105,6 +105,15 @@ module "ecs" {
 #  bucket_name = "eitantestbucket"
 #}
 
+module "elb" {
+  source = "./modules/elb"
+
+  subnet_id          = aws_subnet.my_subnet.id
+  security_group_id  = aws_security_group.my_security_group.id
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.my_security_group.id]
+}
+
 module "ssm" {
   source = "./modules/ssm"
 

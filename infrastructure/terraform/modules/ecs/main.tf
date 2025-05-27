@@ -12,30 +12,10 @@ resource "aws_ecs_cluster" "this" {
   name = var.cluster_name
 }
 
-resource "tls_private_key" "ecs_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "aws_key_pair" "ecs_key" {
-  key_name   = "my-key-pair"
-  public_key = tls_private_key.ecs_key.public_key_openssh
-}
-
-resource "aws_secretsmanager_secret" "ecs_private_key" {
-  name = "ecs-private-key"
-}
-
-resource "aws_secretsmanager_secret_version" "ecs_private_key_version" {
-  secret_id     = aws_secretsmanager_secret.ecs_private_key.id
-  secret_string = tls_private_key.ecs_key.private_key_pem
-}
-
 resource "aws_launch_configuration" "ecs_instance" {
   name_prefix               = "ecs-launch-config-"
   image_id                  = data.aws_ami.ecs_ami.id
   instance_type             = var.instance_type
-  key_name                  = aws_key_pair.ecs_key.key_name
   security_groups           = var.security_groups
   associate_public_ip_address = true
 
