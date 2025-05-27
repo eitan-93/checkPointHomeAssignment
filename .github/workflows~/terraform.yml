@@ -38,5 +38,3 @@ jobs:
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform plan
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform -V
           echo $PWD
-
-#terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform plan 
