@@ -17,6 +17,11 @@ provider "aws" {
   region = var.region
   access_key = var.AWS_ACCESS_KEY_ID
   secret_key = var.AWS_SECRET_ACCESS_KEY
+  
+  #For TESTING 
+  skip_credentials_validation = true
+  skip_requesting_account_id = true
+  skip_metadata_api_check = true
 }
 
 resource "aws_vpc" "my_vpc" {
