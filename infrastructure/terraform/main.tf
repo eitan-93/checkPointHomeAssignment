@@ -80,14 +80,14 @@ module "github_actions" {
   aws_secret_access_key_secret_name = "AWS_SECRET_ACCESS_KEY"
 }
 
-module "elb" {
-  source = "./modules/elb"
+#module "elb" {
+#  source = "./modules/elb"
 
-  subnet_id          = aws_subnet.my_subnet.id
-  security_group_id  = aws_security_group.my_security_group.id
-  subnets            = [aws_subnet.my_subnet.id]
-  security_groups    = [aws_security_group.my_security_group.id]
-}
+#  subnet_id          = aws_subnet.my_subnet.id
+#  security_group_id  = aws_security_group.my_security_group.id
+#  subnets            = [aws_subnet.my_subnet.id]
+#  security_groups    = [aws_security_group.my_security_group.id]
+#}
 
 module "ecs" {
   source = "./modules/ecs"
