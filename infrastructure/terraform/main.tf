@@ -102,7 +102,7 @@ module "ecs" {
   instance_type   = "t2.micro"
   key_pair        = "my-key-pair"
   security_groups = [aws_security_group.my_security_group.id]
-  subnet_ids      = data.aws_subnets.default.ids
+  subnet_ids      = data.aws_vpc.default.ids
 }
 
 #module "s3" {
@@ -113,9 +113,9 @@ module "ecs" {
 module "elb" {
   source = "./modules/elb"
 
-  subnet_id          = tolist(data.aws_subnet_ids.default.ids)[0] # pick the first default subnet
+  subnet_id          = tolist(data.aws_vpc.default.ids)[0] # pick the first default subnet
   security_group_id  = aws_security_group.my_security_group.id
-  subnets            = data.aws_subnets.default.ids
+  subnets            = data.aws_vpc.default.ids
   security_groups    = [aws_security_group.my_security_group.id]
 }
 
