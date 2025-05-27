@@ -15,7 +15,6 @@ terraform {
 provider "aws" {
   alias = "main"
   region = var.region
-  version = "~> 5.0"
 }
 
 resource "aws_vpc" "my_vpc" {
