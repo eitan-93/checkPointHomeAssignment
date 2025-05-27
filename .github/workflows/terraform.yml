@@ -1,9 +1,9 @@
 name: Terraform
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
   
 jobs:
@@ -86,3 +86,10 @@ jobs:
           terraform validate 
           terraform apply -auto-approve
           echo $PWD
+
+      - name: Upload tfstate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eitan-terraform-state
+          path: infrastructure/terraform/terraform.tfstate

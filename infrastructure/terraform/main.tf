@@ -1,5 +1,10 @@
 terraform {
   required_providers {
+    backend "s3" {
+      bucket         = "eitantestbucket"
+      key            = "infrastructure/terraform/terraform.tfstate"
+      region         = "us-east-2"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
@@ -103,11 +108,10 @@ module "ecs" {
   subnet_ids     = [aws_subnet.my_subnet.id]
 }
 
-module "s3" {
-  source = "./modules/s3"
-
-  bucket_name = "my-bucket"
-}
+#module "s3" {
+#  source = "./modules/s3"
+#  bucket_name = "eitantestbucket"
+#}
 
 module "ssm" {
   source = "./modules/ssm"
