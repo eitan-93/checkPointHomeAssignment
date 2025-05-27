@@ -75,9 +75,9 @@ resource "aws_security_group" "my_security_group" {
 module "github_actions" {
   source = "./modules/github_actions"
 
-  repository = "my-repo"
-  aws_access_key_id_secret_name = "AWS_ACCESS_KEY_ID_LOCALSTACK"
-  aws_secret_access_key_secret_name = "AWS_SECRET_ACCESS_KEY_LOCALSTACK"
+  repository = "checkPointHomeAssignment"
+  aws_access_key_id_secret_name = "AWS_ACCESS_KEY_ID"
+  aws_secret_access_key_secret_name = "AWS_SECRET_ACCESS_KEY"
 }
 
 module "elb" {
