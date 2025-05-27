@@ -1,6 +1,3 @@
-# Configure the AWS provider
-
-
 # Create an IAM role for the GitHub Actions workflow
 resource "aws_iam_role" "github_actions" {
   name        = "github-actions-role"
