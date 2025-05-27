@@ -61,6 +61,14 @@ data "aws_subnets" "default" {
   }
 }
 
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnet_ids" "default" {
+  vpc_id = data.aws_vpc.default.id
+}
+
 resource "aws_security_group" "my_security_group" {
   name        = "my-security-group"
   description = "Security group for my ELB"
