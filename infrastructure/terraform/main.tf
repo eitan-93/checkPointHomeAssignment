@@ -34,7 +34,8 @@ provider "aws" {
     autoscaling    = "http://localhost:4566"
   }
 
-  shared_credentials_file = "/dev/null"
+  shared_credentials_files = ["/dev/null"]
+
   token                   = "dummy"
   
 }
