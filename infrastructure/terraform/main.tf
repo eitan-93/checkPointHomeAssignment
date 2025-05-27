@@ -118,9 +118,9 @@ module "sqs" {
   queue_name = "my-queue"
 }
 
-output "subnet_ids" {
-  value = aws_subnets.default.ids
-}
+#output "subnet_ids" {
+#  value = aws_subnets.default.ids
+#}
 
 output "security_group_id" {
   value = aws_security_group.my_security_group.id
