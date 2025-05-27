@@ -1,27 +1,19 @@
 terraform {
   required_providers {
-  #  github = {
-  #    source  = "integrations/github"
-  #    version = "4.5.1"
-  #  }
+    github = {
+      source  = "integrations/github"
+      version = "4.5.1"
+    }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.66"
+      version = ">= 4.66"
     }
   }
 }
 
-
 provider "aws" {
   alias = "main"
   region = var.region
-  access_key = var.AWS_ACCESS_KEY_ID
-  secret_key = var.AWS_SECRET_ACCESS_KEY
-  
-  #For TESTING 
-  skip_credentials_validation = true
-  skip_requesting_account_id = true
-  skip_metadata_api_check = true
 }
 
 resource "aws_vpc" "my_vpc" {
