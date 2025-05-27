@@ -14,10 +14,10 @@ terraform {
 
 provider "aws" {
   alias = "main"
-  region                      = var.region
+  region                      = "us-east-2"
   #FOR TESTING
-  access_key = var.AWS_ACCESS_KEY_ID_LOCALSTACK
-  secret_key = var.AWS_SECRET_ACCESS_KEY_LOCALSTACK
+  access_key = "test"
+  secret_key = "test"
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
