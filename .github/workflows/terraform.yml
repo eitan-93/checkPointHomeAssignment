@@ -48,26 +48,26 @@ jobs:
 
       - name: Setup
         run: |
-          apt-get update
-          apt-get install -y unzip curl git
+          sudo apt-get update
+          sudo apt-get install -y unzip curl git
       
       - name: Install AWS CLI
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          ./aws/install
+          sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          sudo unzip awscliv2.zip
+          sudo ./aws/install
       
       - name: Install Terraform
 
         run: |
           echo "AWS_ACCESS_KEY_ID is set: ${AWS_ACCESS_KEY_ID:+yes}"
           echo "AWS_SECRET_ACCESS_KEY is set: ${AWS_SECRET_ACCESS_KEY:+yes}"
-          aws sts get-caller-identity
-          curl -fsSL https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -o /tmp/terraform.zip \
-          && unzip /tmp/terraform.zip -d /tmp \
-          && mv /tmp/terraform /usr/local/bin/ \
-          && rm -rf /tmp/* \
-          && terraform version
+          sudo aws sts get-caller-identity
+          sudo curl -fsSL https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -o /tmp/terraform.zip \
+          && sudo unzip /tmp/terraform.zip -d /tmp \
+          && sudo mv /tmp/terraform /usr/local/bin/ \
+          && sudo rm -rf /tmp/* \
+          && sudo terraform version
         
       - name: Run Terraform
 
