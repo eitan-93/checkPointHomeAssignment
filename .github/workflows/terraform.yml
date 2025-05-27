@@ -33,18 +33,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Debug AWS secrets
-        run: |
-          echo "AWS_ACCESS_KEY_ID is set: ${AWS_ACCESS_KEY_ID:+yes}"
-          echo "AWS_SECRET_ACCESS_KEY is set: ${AWS_SECRET_ACCESS_KEY:+yes}"
+      # - name: Debug AWS secrets
+      #   run: |
+      #     echo "AWS_ACCESS_KEY_ID is set: ${AWS_ACCESS_KEY_ID:+yes}"
+      #     echo "AWS_SECRET_ACCESS_KEY is set: ${AWS_SECRET_ACCESS_KEY:+yes}"
 
-      - name: Print AWS env (safe)
-        run: |
-          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-            echo "AWS_ACCESS_KEY_ID is NOT set"
-          else
-            echo "AWS_ACCESS_KEY_ID is set"
-          fi
+      # - name: Print AWS env (safe)
+      #   run: |
+      #     if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+      #       echo "AWS_ACCESS_KEY_ID is NOT set"
+      #     else
+      #       echo "AWS_ACCESS_KEY_ID is set"
+      #     fi
 
       - name: Setup
         run: |
@@ -60,9 +60,9 @@ jobs:
       - name: Install Terraform
 
         run: |
-          echo "AWS_ACCESS_KEY_ID is set: ${AWS_ACCESS_KEY_ID:+yes}"
-          echo "AWS_SECRET_ACCESS_KEY is set: ${AWS_SECRET_ACCESS_KEY:+yes}"
-          #sudo aws sts get-caller-identity
+          # echo "AWS_ACCESS_KEY_ID is set: ${AWS_ACCESS_KEY_ID:+yes}"
+          # echo "AWS_SECRET_ACCESS_KEY is set: ${AWS_SECRET_ACCESS_KEY:+yes}"
+          # #sudo aws sts get-caller-identity
           sudo curl -fsSL https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip -o /tmp/terraform.zip \
           && sudo unzip /tmp/terraform.zip -d /tmp \
           && sudo mv /tmp/terraform /usr/local/bin/ \
@@ -91,4 +91,4 @@ jobs:
         if: always()
         run: |
           cd infrastructure/terraform
-          aws s3 cp terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate
+          aws s3 cp ./terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate

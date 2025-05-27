@@ -31,4 +31,4 @@ jobs:
         if: always()
         run: |
           cd infrastructure/terraform
-          aws s3 cp terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate
+          aws s3 cp ./terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate
