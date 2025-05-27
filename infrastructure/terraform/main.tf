@@ -1,19 +1,20 @@
 terraform {
   required_providers {
-    github = {
-      source  = "integrations/github"
-      version = "4.5.1"
-    }
     aws = {
       source  = "hashicorp/aws"
       version = ">= 4.66"
     }
+    github = {
+      source  = "integrations/github"
+      version = "4.5.1"
+    }
   }
 }
 
+
 provider "aws" {
   alias = "main"
-  region = "us-east-2"
+  region                      = var.region
   #FOR TESTING
   access_key = var.AWS_ACCESS_KEY_ID
   secret_key = var.AWS_SECRET_ACCESS_KEY
@@ -22,8 +23,20 @@ provider "aws" {
   skip_requesting_account_id  = true
   s3_use_path_style           = true
   endpoints {
-    s3 = "http://s3.localhost.localstack.cloud:4536"
+    s3             = "http://localhost:4536"
+    ec2            = "http://localhost:4536"
+    iam            = "http://localhost:4536"
+    sts            = "http://localhost:4536"
+    elb            = "http://localhost:4536"
+    ssm            = "http://localhost:4536"
+    sqs            = "http://localhost:4536"
+    ecs            = "http://localhost:4536"
+    cloudwatch     = "http://localhost:4536"
+    autoscaling    = "http://localhost:4536"
   }
+
+
+  
 }
 
 resource "aws_vpc" "my_vpc" {
