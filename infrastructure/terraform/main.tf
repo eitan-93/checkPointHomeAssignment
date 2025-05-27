@@ -49,20 +49,22 @@ provider "aws" {
 #  
 #}
 
-resource "aws_vpc" "my_vpc" {
-  cidr_block = var.vpc_cidr_block
+
+data "aws_vpc" "default" {
+  default = true
 }
 
-resource "aws_subnet" "my_subnet" {
-  cidr_block = var.subnet_cidr_block
-  vpc_id     = aws_vpc.my_vpc.id
-  availability_zone = "us-east-2"
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 resource "aws_security_group" "my_security_group" {
   name        = "my-security-group"
   description = "Security group for my ELB"
-  vpc_id      = aws_vpc.my_vpc.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port   = 80
@@ -80,7 +82,6 @@ resource "aws_security_group" "my_security_group" {
 }
 
 
-
 module "github_actions" {
   source = "./modules/github_actions"
 
@@ -89,23 +90,14 @@ module "github_actions" {
   aws_secret_access_key_secret_name = "AWS_SECRET_ACCESS_KEY"
 }
 
-#module "elb" {
-#  source = "./modules/elb"
-
-#  subnet_id          = aws_subnet.my_subnet.id
-#  security_group_id  = aws_security_group.my_security_group.id
-#  subnets            = [aws_subnet.my_subnet.id]
-#  security_groups    = [aws_security_group.my_security_group.id]
-#}
-
 module "ecs" {
   source = "./modules/ecs"
 
-  cluster_name = "my-cluster"
-  instance_type = "t2.micro"
-  key_pair      = "my-key-pair"
+  cluster_name    = "my-cluster"
+  instance_type   = "t2.micro"
+  key_pair        = "my-key-pair"
   security_groups = [aws_security_group.my_security_group.id]
-  subnet_ids     = [aws_subnet.my_subnet.id]
+  subnet_ids      = data.aws_subnets.default.ids
 }
 
 #module "s3" {
@@ -126,8 +118,8 @@ module "sqs" {
   queue_name = "my-queue"
 }
 
-output "subnet_id" {
-  value = aws_subnet.my_subnet.id
+output "subnet_ids" {
+  value = aws_subnets.default.ids
 }
 
 output "security_group_id" {
