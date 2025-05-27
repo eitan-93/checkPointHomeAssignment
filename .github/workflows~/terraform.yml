@@ -34,5 +34,6 @@ jobs:
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform init
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform fmt
           terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform validate 
+          terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform plan
 
 #terraform -chdir=./checkPointHomeAssignment/infrastructure/terraform plan 
