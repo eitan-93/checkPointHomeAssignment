@@ -89,7 +89,6 @@ jobs:
 
       - name: Upload tfstate
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: eitan-terraform-state
-          path: infrastructure/terraform/terraform.tfstate
+        run: |
+          cd infrastructure/terraform
+          aws s3 cp terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate
