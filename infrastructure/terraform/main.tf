@@ -102,7 +102,7 @@ module "ecs" {
   instance_type   = "t2.micro"
   key_pair        = "my-key-pair"
   security_groups = [aws_security_group.my_security_group.id]
-  subnet_ids      = data.aws_vpc.default.ids
+  subnet_ids      = data.aws_subnets.default.ids
 }
 
 #module "s3" {
