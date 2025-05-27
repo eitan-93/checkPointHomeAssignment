@@ -113,9 +113,9 @@ module "ecs" {
 module "elb" {
   source = "./modules/elb"
 
-  subnet_id          = tolist(data.aws_vpc.default.ids)[0] # pick the first default subnet
+  subnet_id          = data.aws_subnets.default.ids[0]
   security_group_id  = aws_security_group.my_security_group.id
-  subnets            = data.aws_vpc.default.ids
+  subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.my_security_group.id]
 }
 
