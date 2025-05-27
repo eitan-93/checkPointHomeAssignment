@@ -14,6 +14,15 @@ terraform {
 provider "aws" {
   alias = "main"
   region = var.region
+  #FOR TESTING
+  access_key = var.AWS_ACCESS_KEY_ID
+  secret_key = var.AWS_SECRET_ACCESS_KEY
+  skip_credentials_validation = true
+  skip_requesting_account_id = true
+  skip_metadata_api_check = true
+  endpoints {
+    s3 = "http://localhost:4566"
+  }
 }
 
 resource "aws_vpc" "my_vpc" {
