@@ -13,7 +13,6 @@ terraform {
 
 
 provider "aws" {
-  alias = "main"
   region                      = "us-east-2"
   #FOR TESTING
   access_key = "test"
