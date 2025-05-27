@@ -1,10 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket         = "eitantestbucket"
+    key            = "infrastructure/terraform/terraform.tfstate"
+    region         = "us-east-2"
+  }
   required_providers {
-    backend "s3" {
-      bucket         = "eitantestbucket"
-      key            = "infrastructure/terraform/terraform.tfstate"
-      region         = "us-east-2"
-    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
