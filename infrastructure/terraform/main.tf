@@ -23,16 +23,16 @@ provider "aws" {
   skip_requesting_account_id  = true
   s3_use_path_style           = true
   endpoints {
-    s3             = "http://localhost:4536"
-    ec2            = "http://localhost:4536"
-    iam            = "http://localhost:4536"
-    sts            = "http://localhost:4536"
-    elb            = "http://localhost:4536"
-    ssm            = "http://localhost:4536"
-    sqs            = "http://localhost:4536"
-    ecs            = "http://localhost:4536"
-    cloudwatch     = "http://localhost:4536"
-    autoscaling    = "http://localhost:4536"
+    s3             = "http://localhost:4566"
+    ec2            = "http://localhost:4566"
+    iam            = "http://localhost:4566"
+    sts            = "http://localhost:4566"
+    elb            = "http://localhost:4566"
+    ssm            = "http://localhost:4566"
+    sqs            = "http://localhost:4566"
+    ecs            = "http://localhost:4566"
+    cloudwatch     = "http://localhost:4566"
+    autoscaling    = "http://localhost:4566"
   }
 
   shared_credentials_file = "/dev/null"

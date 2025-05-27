@@ -28,6 +28,11 @@ jobs:
           && terraform version
         
       - name: Run Terraform
+        env:
+          AWS_SDK_LOAD_CONFIG: "1"
+          AWS_ACCESS_KEY_ID: "test"
+          AWS_SECRET_ACCESS_KEY: "test"
+          AWS_REGION: "us-east-2"
         run: |
           git clone https://github.com/eitan-93/checkPointHomeAssignment.git 
           export AWS_SDK_LOAD_CONFIG=1
