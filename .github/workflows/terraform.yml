@@ -86,10 +86,3 @@ jobs:
           terraform validate 
           terraform apply -auto-approve
           echo $PWD
-
-      - name: Upload tfstate
-        if: always()
-        run: |
-          cd infrastructure/terraform
-          ls -l terraform.tfstate
-          aws s3 cp ./terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate

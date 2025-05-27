@@ -26,10 +26,3 @@ jobs:
           cd infrastructure/terraform
           terraform init
           terraform destroy -auto-approve
-      
-      - name: Upload tfstate
-        if: always()
-        run: |
-          cd infrastructure/terraform
-          ls -l terraform.tfstate
-          aws s3 cp ./terraform.tfstate s3://eitantestbucket/infrastructure/terraform/terraform.tfstate
