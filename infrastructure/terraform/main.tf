@@ -81,15 +81,6 @@ resource "aws_security_group" "my_security_group" {
   }
 }
 
-
-module "github_actions" {
-  source = "./modules/github_actions"
-
-  repository = "eitan-93/checkPointHomeAssignment"
-  aws_access_key_id_secret_name = "AWS_ACCESS_KEY_ID"
-  aws_secret_access_key_secret_name = "AWS_SECRET_ACCESS_KEY"
-}
-
 module "ecs" {
   source = "./modules/ecs"
 
