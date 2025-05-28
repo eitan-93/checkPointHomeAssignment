@@ -19,26 +19,28 @@ data "aws_iam_policy_document" "github_oidc_trust" {
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_role" "github_actions" {
-  name               = "github-actions-role"
-  description        = "Role for GitHub Actions OIDC"
-  assume_role_policy = data.aws_iam_policy_document.github_oidc_trust.json
+resource "aws_iam_user" "github_actions" {
+  name = "github-actions-user"
+}
+
+resource "aws_iam_access_key" "github_actions" {
+  user = aws_iam_user.github_actions.name
 }
 
 resource "aws_iam_policy" "github_actions" {
-  name        = "github-actions-policy"
+  name_prefix = "github-actions-policy-"  # avoids name conflict
   description = "Policy for GitHub Actions workflow"
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow"
+        Effect = "Allow",
         Action = [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
-        ]
+        ],
         Resource = [
           "arn:aws:s3:::my-bucket",
           "arn:aws:s3:::my-bucket/*"
