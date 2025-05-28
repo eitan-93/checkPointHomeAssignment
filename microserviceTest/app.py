@@ -1,28 +1,62 @@
-import boto3
+import http.client
 import json
-import schedule
 import time
+import boto3
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# SQS queue URL
-sqs_queue_url = 'https://sqs.us-east-2.amazonaws.com/123456789012/my-queue'
 
-# S3 bucket name
-s3_bucket_name = 'eitantestbucket'
+# Load token from SSM Parameter Store
+ssm = boto3.client('ssm')
+token = ssm.get_parameter(Name='token')['Parameter']['Value']
 
-def pull_messages_from_sqs():
-    sqs = boto3.client('sqs')
-    response = sqs.receive_message(QueueUrl=sqs_queue_url, MaxNumberOfMessages=10)
+API_HOST = "api.currencyfreaks.com"
+currency_api_key = os.environ['CURRENCY_API_KEY']
+API_PATH = f"/v2.0/rates/latest?apikey=${currency_api_key}&symbols=ILS,GBP,EUR,USD"
 
-    if 'Messages' in response:
-        for message in response['Messages']:
-            data = json.loads(message['Body'])
-            s3 = boto3.client('s3')
-            s3.put_object(Body=json.dumps(data), Bucket=s3_bucket_name, Key='path/to/object')
+latest_data = {}
 
-            # Delete message from SQS queue
-            sqs.delete_message(QueueUrl=sqs_queue_url, ReceiptHandle=message['ReceiptHandle'])
+def poll_currency_api():
+    global latest_data
+    while True:
+        try:
+            conn = http.client.HTTPSConnection(API_HOST)
+            conn.request("GET", API_PATH)
+            response = conn.getresponse()
+            if response.status == 200:
+                data = response.read()
+                result = json.loads(data)
+                latest_data = {
+                    "data": {
+                        "content": result,
+                        "timestream": int(time.time())
+                    },
+                    "token": token
+                }
+                print("Polled currency data:", latest_data)
+            else:
+                print(f"Error fetching data: {response.status} {response.reason}")
+            conn.close()
+        except Exception as e:
+            print("Polling failed:", e)
+        time.sleep(120)
 
-schedule.every(2).minutes.do(pull_messages_from_sqs)  # Pull messages every 1 minute
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/currency":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(latest_data).encode("utf-8"))
+        else:
+            self.send_response(404)
+            self.end_headers()
 
-while True:
-    schedule.run_pending()
+if __name__ == "__main__":
+    import threading
+
+    polling_thread = threading.Thread(target=poll_currency_api, daemon=True)
+    polling_thread.start()
+
+    server = HTTPServer(("0.0.0.0", 5002), SimpleHTTPRequestHandler)
+    print("Starting server on port 5002...")
+    server.serve_forever()

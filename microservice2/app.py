@@ -1,10 +1,11 @@
+import os
 import boto3
 import json
 import schedule
 import time
 
 # SQS queue URL
-sqs_queue_url = 'https://sqs.us-east-2.amazonaws.com/123456789012/my-queue'
+sqs_queue_url = os.environ['SQS_QUEUE_URL']
 
 # S3 bucket name
 s3_bucket_name = 'eitantestbucket'

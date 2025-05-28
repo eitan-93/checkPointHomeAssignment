@@ -1,5 +1,6 @@
 import http.server
 import json
+import os
 import boto3
 import datetime
 
@@ -8,7 +9,7 @@ ssm = boto3.client('ssm')
 token = ssm.get_parameter(Name='token')['Parameter']['Value']
 
 # SQS queue URL
-sqs_queue_url = 'https://sqs.us-east-2.amazonaws.com/123456789012/my-queue'
+sqs_queue_url = os.environ['SQS_QUEUE_URL']
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
