@@ -16,10 +16,3 @@ variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet"
 }
 
-variable "aws_access_key_id" {
-  type = string
-}
-
-variable "aws_secret_access_key" {
-  type = string
-}
