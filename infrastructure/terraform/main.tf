@@ -119,7 +119,6 @@ module "ecs" {
   security_groups = [aws_security_group.my_security_group.id]
   subnet_ids      = data.aws_subnets.default.ids
   sqs_queue_url   = module.sqs.queue_url
-  ecs_instance_id  = aws_instance.ecs_instance.id
   elb_name         = module.elb.elb_name
   currencyfreaks_api_key = var.currencyfreaks_api_key
 }
