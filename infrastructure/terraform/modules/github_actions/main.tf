@@ -1,4 +1,4 @@
- Trust relationship for GitHub OIDC
+# Trust relationship for GitHub OIDC
 data "aws_iam_policy_document" "github_oidc_trust" {
   statement {
     effect = "Allow"
