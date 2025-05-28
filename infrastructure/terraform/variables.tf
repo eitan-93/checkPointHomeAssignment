@@ -16,3 +16,7 @@ variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet"
 }
 
+variable "currencyfreaks_api_key" {
+  description = "API key for CurrencyFreaks"
+  type        = string
+}

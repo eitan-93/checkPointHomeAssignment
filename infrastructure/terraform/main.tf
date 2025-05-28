@@ -121,6 +121,7 @@ module "ecs" {
   sqs_queue_url   = module.sqs.queue_url
   ecs_instance_id  = aws_instance.ecs_instance.id
   elb_name         = module.elb.elb_name
+  currencyfreaks_api_key = var.currencyfreaks_api_key
 }
 
 #output "subnet_ids" {
