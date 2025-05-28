@@ -20,36 +20,6 @@ provider "aws" {
   region = "us-east-2"
 }
 
-#local test
-#provider "aws" {
-#  region                      = "us-east-2"
-#  #FOR TESTING
-#  access_key = "test"
-#  secret_key = "test"
-#  skip_credentials_validation = true
-#  skip_metadata_api_check     = true
-#  skip_requesting_account_id  = true
-#  s3_use_path_style           = true
-#  endpoints {
-#    s3             = "http://localhost:4566"
-#    ec2            = "http://localhost:4566"
-#    iam            = "http://localhost:4566"
-#    sts            = "http://localhost:4566"
-#    elb            = "http://localhost:4566"
-#    ssm            = "http://localhost:4566"
-#    sqs            = "http://localhost:4566"
-#    ecs            = "http://localhost:4566"
-#    cloudwatch     = "http://localhost:4566"
-#    autoscaling    = "http://localhost:4566"
-#  }
-#
-#  shared_credentials_files = ["/dev/null"]
-#
-#  token                   = "dummy"
-#  
-#}
-
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -80,13 +50,6 @@ resource "aws_security_group" "my_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-
-
-#module "s3" {
-#  source = "./modules/s3"
-#  bucket_name = "eitantestbucket"
-#}
 
 module "elb" {
   source = "./modules/elb"
@@ -119,14 +82,9 @@ module "ecs" {
   security_groups = [aws_security_group.my_security_group.id]
   subnet_ids      = data.aws_subnets.default.ids
   sqs_queue_url   = module.sqs.queue_url
-  #ecs_instance_id  = aws_instance.ecs_instance.id
   elb_name         = module.elb.elb_name
   currencyfreaks_api_key = var.currencyfreaks_api_key
 }
-
-#output "subnet_ids" {
-#  value = aws_subnets.default.ids
-#}
 
 
 output "security_group_id" {
