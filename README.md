@@ -9,3 +9,4 @@ This project defines a Python microservice (`microserviceTest`) that polls curre
 - **Terraform** configures ECS services, task definitions, networking, and SSM parameter integration.
 - The microservice retrieves secure secrets (API keys) from **AWS SSM Parameter Store** at runtime.
 - **GitHub Actions** is used for CI/CD: it builds the Docker image, pushes it to **ECR**, and triggers `terraform apply`.
+- **GitHub Actions** For manageability I also created a workflow for terraform to destroy.
