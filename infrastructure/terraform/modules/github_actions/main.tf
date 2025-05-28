@@ -1,22 +1,4 @@
-variable "repository" {
-  description = "GitHub repository in the format owner/name"
-  type        = string
-  default     = "eitan-93/checkPointHomeAssignment"
-}
-
-variable "aws_access_key_id_secret_name" {
-  description = "Name of the GitHub Actions secret for the AWS Access Key ID"
-  type        = string
-  default     = "AWS_ACCESS_KEY_ID"
-}
-
-variable "aws_secret_access_key_secret_name" {
-  description = "Name of the GitHub Actions secret for the AWS Secret Access Key"
-  type        = string
-  default     = "AWS_SECRET_ACCESS_KEY"
-}
-
-# Trust relationship for GitHub OIDC
+ Trust relationship for GitHub OIDC
 data "aws_iam_policy_document" "github_oidc_trust" {
   statement {
     effect = "Allow"
@@ -66,20 +48,22 @@ resource "aws_iam_policy" "github_actions" {
   })
 }
 
+
+# Attach the IAM policy to the IAM role
 resource "aws_iam_role_policy_attachment" "github_actions" {
   role       = aws_iam_role.github_actions.name
   policy_arn = aws_iam_policy.github_actions.arn
 }
 
-# GitHub secrets (hardcoded values for now – replace with real values securely)
 resource "github_actions_secret" "aws_access_key_id" {
-  repository      = var.repository
-  secret_name     = var.aws_access_key_id_secret_name
+  repository = var.repository
+  secret_name = var.aws_access_key_id_secret_name
   plaintext_value = "my-access-key-id"
 }
 
 resource "github_actions_secret" "aws_secret_access_key" {
-  repository      = var.repository
-  secret_name     = var.aws_secret_access_key_secret_name
+  repository = var.repository
+  secret_name = var.aws_secret_access_key_secret_name
   plaintext_value = "my-secret-access-key"
 }
+
