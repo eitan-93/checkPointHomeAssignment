@@ -50,13 +50,6 @@ resource "aws_iam_policy" "github_actions" {
   })
 }
 
-
-# Attach the IAM policy to the IAM role
-resource "aws_iam_role_policy_attachment" "github_actions" {
-  role       = aws_iam_role.github_actions.name
-  policy_arn = aws_iam_policy.github_actions.arn
-}
-
 resource "github_actions_secret" "aws_access_key_id" {
   repository = var.repository
   secret_name = var.aws_access_key_id_secret_name
