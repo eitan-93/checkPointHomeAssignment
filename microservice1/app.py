@@ -25,8 +25,8 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
 
         # Date validity check
         try:
-            email_timestream = int(data['data']['email_timestream'])
-            if email_timestream < datetime.datetime.now().timestamp():
+            timestream = int(data['data']['timestream'])
+            if timestream < datetime.datetime.now().timestamp():
                 self.send_response(400)
                 self.end_headers()
                 self.wfile.write(b'Invalid date')

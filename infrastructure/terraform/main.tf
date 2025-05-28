@@ -81,15 +81,7 @@ resource "aws_security_group" "my_security_group" {
   }
 }
 
-module "ecs" {
-  source = "./modules/ecs"
 
-  cluster_name    = "my-cluster"
-  instance_type   = "t2.micro"
-  key_pair        = "my-key-pair"
-  security_groups = [aws_security_group.my_security_group.id]
-  subnet_ids      = data.aws_subnets.default.ids
-}
 
 #module "s3" {
 #  source = "./modules/s3"
@@ -118,6 +110,19 @@ module "sqs" {
   queue_name = "my-queue"
 }
 
+module "ecs" {
+  source = "./modules/ecs"
+
+  cluster_name    = "my-cluster"
+  instance_type   = "t2.micro"
+  key_pair        = "my-key-pair"
+  security_groups = [aws_security_group.my_security_group.id]
+  subnet_ids      = data.aws_subnets.default.ids
+  sqs_queue_url   = module.sqs.queue_url
+  ecs_instance_id  = aws_instance.ecs_instance.id
+  elb_name         = module.elb.elb_name
+}
+
 #output "subnet_ids" {
 #  value = aws_subnets.default.ids
 #}
@@ -125,4 +130,8 @@ module "sqs" {
 
 output "security_group_id" {
   value = aws_security_group.my_security_group.id
+}
+
+output "sqs_queue_url" {
+  value = module.sqs.queue_url
 }

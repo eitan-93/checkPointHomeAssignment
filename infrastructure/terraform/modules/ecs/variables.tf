@@ -22,3 +22,21 @@ variable "subnet_ids" {
   type        = list(string)
   description = "List of subnet IDs for ECS instances"
 }
+
+variable "sqs_queue_url" {
+  type = string
+}
+
+variable "currencyfreaks_api_key" {
+  type = string
+  description = "API key for currencyfreaks.com"
+}
+
+variable "ecs_instance_id" {
+  description = "The EC2 instance ID running the ECS task"
+  type        = string
+}
+
+variable "elb_name" {
+  type = string
+}

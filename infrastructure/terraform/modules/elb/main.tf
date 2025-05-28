@@ -10,3 +10,7 @@ resource "aws_elb" "my_elb" {
     lb_protocol        = "http"
   }
 }
+
+output "elb_name" {
+  value = aws_elb.my_elb.name
+}

@@ -55,6 +55,12 @@ resource "aws_ecs_task_definition" "microservice1" {
       cpu       = 10
       memory    = 512
       essential = true
+      environment = [
+        {
+          name  = "SQS_QUEUE_URL"
+          value = var.sqs_queue_url
+        }
+      ]
       portMappings = [
         {
           containerPort = 5000
@@ -78,10 +84,45 @@ resource "aws_ecs_task_definition" "microservice2" {
       cpu       = 10
       memory    = 512
       essential = true
+      environment = [
+        {
+          name  = "SQS_QUEUE_URL"
+          value = var.sqs_queue_url
+        }
+      ]
       portMappings = [
         {
           containerPort = 5001
           hostPort      = 5001
+          protocol      = "tcp"
+        }
+      ]
+    }
+  ])
+}
+
+resource "aws_ecs_task_definition" "microserviceTest" {
+  family                   = "microserviceTest"
+  requires_compatibilities = ["EC2"]
+  network_mode             = "bridge"
+
+  container_definitions = jsonencode([
+    {
+      name      = "microserviceTest"
+      image     = "microserviceTest:latest"
+      cpu       = 10
+      memory    = 512
+      essential = true
+      environment = [
+        {
+          name  = "CURRENCYFREAKS_API"
+          value = var.currencyfreaks_api_key
+        }
+      ]
+      portMappings = [
+        {
+          containerPort = 5002
+          hostPort      = 5002
           protocol      = "tcp"
         }
       ]
@@ -103,4 +144,17 @@ resource "aws_ecs_service" "microservice2" {
   task_definition = aws_ecs_task_definition.microservice2.arn
   desired_count   = 1
   launch_type     = "EC2"
+}
+
+resource "aws_ecs_service" "microserviceTest" {
+  name            = "microserviceTest"
+  cluster         = aws_ecs_cluster.this.id
+  task_definition = aws_ecs_task_definition.microserviceTest.arn
+  desired_count   = 1
+  launch_type     = "EC2"
+}
+
+resource "aws_autoscaling_attachment" "elb_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.ecs.name_prefix
+  elb                    = var.elb_name
 }
