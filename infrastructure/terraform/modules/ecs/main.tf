@@ -155,6 +155,6 @@ resource "aws_ecs_service" "microserviceTest" {
 }
 
 resource "aws_autoscaling_attachment" "elb_attachment" {
-  autoscaling_group_name = aws_autoscaling_group.ecs.name_prefix
+  autoscaling_group_name = aws_autoscaling_group.ecs.name
   elb                    = var.elb_name
 }
